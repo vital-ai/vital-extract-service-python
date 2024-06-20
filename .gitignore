@@ -1,4 +1,10 @@
 
 .idea/*
-extract-service-config.yaml
+extract_service_config.yaml
 
+test_data_internal/*
+test_output/*
+
+**/.DS_Store
+
+**/__pycache__/*
