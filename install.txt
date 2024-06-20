@@ -1,0 +1,11 @@
+pip install transformers==4.25.1
+pip install en-core-web-trf==3.4.1
+python -m spacy download en_core_web_trf
+pip install spacy-transformers
+python3 -m spacy download en_core_web_trf
+python3 -m spacy download en_coreference_web_trf
+pip install https://github.com/explosion/spacy-experimental/releases/download/v0.6.1/en_coreference_web_trf-3.4.0a2-py3-none-any.whl
+pip install spacy==3.7.5
+python -m spacy validate
+pip install nltk
+
