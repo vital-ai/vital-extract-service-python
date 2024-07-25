@@ -1,0 +1,69 @@
+
+overview of relation extraction process
+=======================================
+
+Resources:
+
+1) Use nltk framenet as initial source data for the types of relationships.
+
+2) A set of vectors, one per relationship type, such as "Commerce_buy"
+These are loaded into an index using hnswlib
+Given a sentence, create a vector and do a vector search to find similar relationship vectors.
+
+3) A model trained to predict whether a given sentence is likely to contain a relation
+and a likelihood score for each relation type ranging from 0 to 1.
+
+-----------------------------
+
+Given an input text document:
+
+use model (TBD) to split document into sections
+
+use model or just simple text features (\n) to split into paragraphs
+
+use spacy to break into sentences
+
+use spacy to identify named entities
+
+use spacy for co-reference resolution
+
+substitute referent for each referring anaphor
+(She --> Jane Doe)
+
+The purpose is to make each sentence independent.
+
+Given a sentence, find the closest N relationship vectors.
+
+This to be used as a filter to only process a sentence further if there could be a relation
+of a type of interest.  This generally picks up on verbs and phrases that are typical of a relation.
+
+A distance cut-off can be used for a filter.
+
+Given a sentence is of interest, use the relation prediction model to assign likelihood scores for
+the different relation types.  Information such as tokens, entities,
+sentence vector to be used as input to the model.
+
+The likelihood score can be used as a filter.
+
+Given a cut-off score, select which relation types to attempt to extract.
+
+For the selected relation types, use model (currently an LLM model) to attempt
+to extract a relation.
+
+If extracted, a relation will consist of the relation type and one or more
+slots with a type and a value.  The value may be a base data type such
+as a date or number, or it may refer to a named entity, such as a person.
+
+Named entities may be further processed to determine the unique set of the
+named entities and link each named entity mention with its unique named entity.
+This would also serve to link named entities that are referenced in a slot to the
+document-wide named entity.
+
+Note: named entities can be resolved to a unique entity within a document as well
+as linked to a globally defined entity.  As example, models are available to link entities to
+entities defined in wikipedia.  This is only possible if the entity has a wikipedia entry
+and the model has been trained to recognize it.
+
+Given a particular set of entities, a model may be trained to recognize it.  This can remove the need
+to determine the unique set of entities per document if each named entity is already linked to a global entry.
+
